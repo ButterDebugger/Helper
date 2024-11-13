@@ -1,4 +1,8 @@
-import { add } from "../dist/index.js";
+import {
+	elementPageScaler,
+	runAnimation,
+	copyToClipboard,
+} from "../dist/index.js";
 
 /**
  * Simple assertion that matches the expected value of the result
@@ -16,4 +20,22 @@ function assert(result, expected, message = "") {
 }
 
 // Perform some tests
-assert(add(1, 2), 3, "Sum of 1 and 2");
+const canvas = document.querySelector("canvas");
+const ctx = canvas.getContext("2d");
+
+elementPageScaler(canvas);
+
+runAnimation(async (time, fps) => {
+	ctx.fillStyle = "#000";
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+	ctx.fillStyle = "#fff";
+	ctx.font = "20px monospace";
+
+	ctx.fillText(`Time: ${time}`, 10, 30);
+	ctx.fillText(`FPS: ${fps}`, 10, 60);
+});
+
+canvas.addEventListener("click", () => {
+	copyToClipboard("Hello, world!");
+});
