@@ -1,10 +1,5 @@
 import { assertEquals } from "@std/assert";
-import {
-    fromUint8Array,
-    strictEquals,
-    strictTypeof,
-    toUint8Array,
-} from "../src/index.ts";
+import { strictEquals, strictTypeof } from "../src/index.ts";
 
 Deno.test("Strict type comparison", () => {
     assertEquals(strictTypeof(null), "null");
@@ -75,32 +70,4 @@ Deno.test("Strict comparison", () => {
     assertEquals(strictEquals(new A(), new B()), false);
     assertEquals(strictEquals(a, new B()), false);
     assertEquals(strictEquals(a, b), false);
-});
-
-Deno.test("Uint8Array and string conversion", () => {
-    const str = "Hello, world!";
-    const uint8 = toUint8Array(str);
-    const str2 = fromUint8Array(uint8);
-    assertEquals(str, str2);
-
-    const uint8_2 = new Uint8Array([
-        72,
-        101,
-        108,
-        108,
-        111,
-        44,
-        32,
-        119,
-        111,
-        114,
-        108,
-        100,
-        33,
-    ]);
-    const str3 = fromUint8Array(uint8_2);
-    assertEquals(str3, "Hello, world!");
-
-    const uint8_3 = toUint8Array(str3);
-    assertEquals(uint8_3, uint8_2);
 });

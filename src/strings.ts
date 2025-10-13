@@ -72,3 +72,35 @@ export function toUint8Array(str: string): Uint8Array {
     }
     return uint8;
 }
+
+/**
+ * Generates a random string of the specified length
+ * @param len The length of the string
+ * @returns The random string
+ */
+export function randomString(len: number): string {
+    // Generate a random values
+    const arr = new Uint8Array(len);
+    crypto.getRandomValues(arr);
+
+    // Convert to string
+    return String.fromCharCode(...arr);
+}
+
+/**
+ * Encodes a string into Base64Url
+ * @param str The input string
+ * @returns The Base64Url encoded string
+ */
+export function base64UrlEncode(str: string): string {
+    return btoa(str).replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
+}
+
+/**
+ * Decodes a Base64Url encoded string
+ * @param str The input string
+ * @returns The decoded string
+ */
+export function base64UrlDecode(str: string): string {
+    return atob(str.replace(/-/g, "+").replace(/_/g, "/"));
+}
