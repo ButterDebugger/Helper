@@ -1,9 +1,17 @@
+/**
+ * A data point with an associated value
+ */
 export class Point<T> {
   readonly x: number;
   readonly y: number;
 
   data: T;
 
+  /**
+   * @param x The x coordinate of the point
+   * @param y The y coordinate of the point
+   * @param data The data associated with the point
+   */
   constructor(x: number, y: number, data: T) {
     this.x = x;
     this.y = y;
@@ -11,17 +19,38 @@ export class Point<T> {
   }
 }
 
+/**
+ * Queryable bounding shape
+ */
 interface BoundingShape<T> {
+  /**
+   * Checks if the shape contains a point
+   * @param point The point to check
+   */
   contains(point: Point<T>): boolean;
+
+  /**
+   * Checks if the shape intersects with a bounding rectangle
+   * @param rect The rectangle to check
+   */
   intersects(rect: BoundingRectangle<T>): boolean;
 }
 
+/**
+ * A bounding rectangle
+ */
 export class BoundingRectangle<T> implements BoundingShape<T> {
   readonly x: number;
   readonly y: number;
   readonly width: number;
   readonly height: number;
 
+  /**
+   * @param x The x bottom left coordinate of the rectangle
+   * @param y The y bottom left coordinate of the rectangle
+   * @param width The width of the rectangle
+   * @param height The height of the rectangle
+   */
   constructor(x: number, y: number, width: number, height: number) {
     this.x = x;
     this.y = y;
@@ -48,11 +77,19 @@ export class BoundingRectangle<T> implements BoundingShape<T> {
   }
 }
 
+/**
+ * A bounding circle
+ */
 export class BoundingCircle<T> implements BoundingShape<T> {
   readonly x: number;
   readonly y: number;
   readonly radius: number;
 
+  /**
+   * @param x The x center coordinate of the circle
+   * @param y The y center coordinate of the circle
+   * @param radius The radius of the circle
+   */
   constructor(x: number, y: number, radius: number) {
     this.x = x;
     this.y = y;
@@ -81,6 +118,9 @@ export class BoundingCircle<T> implements BoundingShape<T> {
   }
 }
 
+/**
+ * A quadtree containing points and sub quadtrees
+ */
 export class QuadTree<T> {
   readonly boundary: BoundingRectangle<T>;
   readonly capacity: number;
@@ -92,6 +132,10 @@ export class QuadTree<T> {
   bottomRight?: QuadTree<T>;
   bottomLeft?: QuadTree<T>;
 
+  /**
+   * @param boundary The boundary of the quadtree
+   * @param capacity The maximum number of points the quadtree can hold before subdividing
+   */
   constructor(boundary: BoundingRectangle<T>, capacity: number) {
     if (capacity < 1) throw new RangeError("Capacity must be greater than 0.");
 
@@ -101,7 +145,7 @@ export class QuadTree<T> {
     this.divided = false;
   }
 
-  subdivide(): void {
+  private subdivide(): void {
     // Cancel if already subdivided
     if (this.divided) return;
 
@@ -121,6 +165,11 @@ export class QuadTree<T> {
     this.divided = true;
   }
 
+  /**
+   * Inserts a new point into the quadtree
+   * @param point The point to insert
+   * @returns Whether the point was inserted
+   */
   insert(point: Point<T>): boolean {
     if (!this.boundary.contains(point)) {
       return false;
@@ -143,6 +192,12 @@ export class QuadTree<T> {
     );
   }
 
+  /**
+   * Queries the quadtree for points within the given shape
+   * @param range The shape to query
+   * @param found The points found so far, used internally during query
+   * @returns The points found within the shape
+   */
   query(range: BoundingShape<T>, found: Point<T>[] = []): Point<T>[] {
     if (!range.intersects(this.boundary)) {
       return found;
