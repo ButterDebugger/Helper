@@ -13,7 +13,7 @@ export function isIndexOutOfRange(array: unknown[], index: number): boolean {
  * @param arr The input array
  * @returns The shuffled array
  */
-export function shuffle(arr: unknown[]): unknown[] {
+export function shuffle<T>(arr: T[]): T[] {
     let shuffledArr = arr;
 
     for (let i = shuffledArr.length - 1; i > 0; i--) {
@@ -30,11 +30,7 @@ export function shuffle(arr: unknown[]): unknown[] {
  * @returns The switched array
  * @throws {RangeError} If the either of the indices are out of range
  */
-export function swap(
-    arr: unknown[],
-    index1: number,
-    index2: number,
-): unknown[] {
+export function swap<T>(arr: T[], index1: number, index2: number): T[] {
     if (isIndexOutOfRange(arr, index1) || isIndexOutOfRange(arr, index2)) {
         throw new RangeError("Index is out of range");
     }

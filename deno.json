@@ -1,6 +1,6 @@
 {
     "name": "@debutter/helper",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "license": "MIT",
     "tasks": {
         "test": "deno test -A",
