@@ -1,5 +1,10 @@
 import { assertArrayIncludes, assertEquals } from "@std/assert";
-import { QuadTree, Point, BoundingCircle, BoundingRectangle } from "../src/index.ts";
+import {
+    BoundingCircle,
+    BoundingRectangle,
+    Point,
+    QuadTree,
+} from "../src/index.ts";
 
 const outerBound = new BoundingRectangle(0, 0, 100, 100);
 const tree = new QuadTree<string>(outerBound, 4);
@@ -21,24 +26,24 @@ tree.insert(p4);
 tree.insert(p5);
 
 Deno.test("Query entire tree", () => {
-  const points = tree.query(outerBound);
+    const points = tree.query(outerBound);
 
-  assertArrayIncludes(points, [p1, p2, p3, p4, p5]);
-  assertEquals(points.length, 5);
+    assertArrayIncludes(points, [p1, p2, p3, p4, p5]);
+    assertEquals(points.length, 5);
 });
 
 Deno.test("Query rectangle", () => {
-  const rect = new BoundingRectangle(0, 0, 50, 50);
-  const points = tree.query(rect);
+    const rect = new BoundingRectangle(0, 0, 50, 50);
+    const points = tree.query(rect);
 
-  assertArrayIncludes(points, [p1, p2, p3]);
-  assertEquals(points.length, 3);
+    assertArrayIncludes(points, [p1, p2, p3]);
+    assertEquals(points.length, 3);
 });
 
 Deno.test("Query circle", () => {
-  const circle = new BoundingCircle(50, 50, 30);
-  const points = tree.query(circle);
+    const circle = new BoundingCircle(50, 50, 30);
+    const points = tree.query(circle);
 
-  assertArrayIncludes(points, [p2, p3]);
-  assertEquals(points.length, 2);
+    assertArrayIncludes(points, [p2, p3]);
+    assertEquals(points.length, 2);
 });
