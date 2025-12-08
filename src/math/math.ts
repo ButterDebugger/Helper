@@ -9,7 +9,7 @@
 export function radical(radicand: number, root: number): number {
     return (radicand > 1 || radicand < -1) && root === 0 // If root is 0 and radicand is not between -1 and 1
         ? Number.POSITIVE_INFINITY
-        : (radicand > 0 || radicand < 0) && root === 0 // If root is 0 and radicand is not 0
+        : radicand !== 0 && root === 0 // If root is 0 and radicand is not 0
         ? 1
         : radicand < 0 && root % 2 === 0 // If radicand is negative and root is even
         ? Number.NaN // Imaginary numbers: // `${((x < 0 ? -x : x) ** (1 / n))}${"i"}` */

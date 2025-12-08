@@ -329,11 +329,8 @@ export class Vector2 {
      * @returns Whether the two vectors are equal
      */
     equals(vector: unknown): boolean {
-        return (
-            vector instanceof Vector2 &&
-            this.#x === vector.getX() &&
-            this.#y === vector.getY()
-        );
+        return vector instanceof Vector2 && this.#x === vector.getX() &&
+            this.#y === vector.getY();
     }
     /**
      * Creates a copy of this vector.
@@ -565,11 +562,8 @@ export class Vector3 {
         return Math.sqrt(a + b + c);
     }
     dot(vector: Vector3): number {
-        return (
-            this.#x * vector.getX() +
-            this.#y * vector.getY() +
-            this.#z * vector.getZ()
-        );
+        return this.#x * vector.getX() + this.#y * vector.getY() +
+            this.#z * vector.getZ();
     }
     mag(): number {
         return Math.sqrt(this.magSq());
