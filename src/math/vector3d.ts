@@ -3,163 +3,267 @@ export class Vector3 {
     #y: number;
     #z: number;
 
+    /**
+     * Creates a new Vector3 object
+     * @param x The x coordinate of the vector
+     * @param y The y coordinate of the vector
+     * @param z The z coordinate of the vector
+     */
     constructor(x = 0, y = 0, z = 0) {
         this.#x = x;
         this.#y = y;
         this.#z = z;
     }
 
+    /**
+     * @returns A tuple containing the x, y, and z components of the vector
+     */
     get comps(): [number, number, number] {
         return [this.#x, this.#y, this.#z];
     }
 
+    /**
+     * @returns A string representing the dimension of the vector, which is "3d"
+     */
     get dimension(): string {
         return "3d";
     }
 
     // Getters
 
+    /**
+     * @returns The x component of the vector
+     */
     getX(): number {
         return this.#x;
     }
+    /**
+     * @returns The y component of the vector
+     */
     getY(): number {
         return this.#y;
     }
+    /**
+     * @returns The z component of the vector
+     */
     getZ(): number {
         return this.#z;
     }
 
     // Setters
 
+    /**
+     * Sets the x, y, and z components of the vector
+     * @param x The new x value of the vector
+     * @param y The new y value of the vector
+     * @param z The new z value of the vector
+     * @returns The vector itself
+     */
     set(x: number = this.#x, y: number = this.#y, z: number = this.#z): Vector3 {
         this.#x = x;
         this.#y = y;
         this.#z = z;
         return this;
     }
+    /**
+     * Sets the x component of the vector
+     * @param scalar The new x value of the vector
+     * @returns The vector itself
+     */
     setX(scalar: number): Vector3 {
         this.#x = scalar;
         return this;
     }
+    /**
+     * Sets the y component of the vector
+     * @param scalar The new y value of the vector
+     * @returns The vector itself
+     */
     setY(scalar: number): Vector3 {
         this.#y = scalar;
         return this;
     }
+    /**
+     * Sets the z component of the vector
+     * @param scalar The new z value of the vector
+     * @returns The vector itself
+     */
     setZ(scalar: number): Vector3 {
         this.#z = scalar;
         return this;
     }
 
-    // Addition operations
+    // Addition operation
 
-    add(vector: Vector3): Vector3 {
-        this.#x += vector.getX();
-        this.#y += vector.getY();
-        this.#z += vector.getZ();
-        return this;
-    }
-    addScalar(scalar: number): Vector3 {
-        this.#x += scalar;
-        this.#y += scalar;
-        this.#z += scalar;
-        return this;
-    }
-    addX(scalar: number): Vector3 {
-        this.#x += scalar;
-        return this;
-    }
-    addY(scalar: number): Vector3 {
-        this.#y += scalar;
-        return this;
-    }
-    addZ(scalar: number): Vector3 {
-        this.#z += scalar;
-        return this;
-    }
+    /**
+     * Adds another vector to this vector
+     * @param vector The vector to add
+     * @returns The vector itself
+     */
+    add(vector: Vector3): Vector3;
+    /**
+     * Adds a scalar value to the x, y, and z components of this vector
+     * @param scalar The scalar value to add
+     * @returns The vector itself
+     */
+    add(scalar: number): Vector3;
+    /**
+     * Adds three scalar values to the x, y, and z components of this vector
+     * @param scalarX The scalar value to add to the x component
+     * @param scalarY The scalar value to add to the y component
+     * @param scalarZ The scalar value to add to the z component
+     * @returns The vector itself
+     */
+    add(scalarX: number, scalarY: number, scalarZ: number): Vector3;
 
-    // Subtraction operations
+    add(scalarX: Vector3 | number, scalarY?: number, scalarZ?: number): Vector3 {
+        if (scalarX instanceof Vector3) {
+            this.#x += scalarX.getX();
+            this.#y += scalarX.getY();
+            this.#z += scalarX.getZ();
+        } else if (typeof scalarY === "number" && typeof scalarZ === "number") {
+            this.#x += scalarX;
+            this.#y += scalarY;
+            this.#z += scalarZ;
+        } else {
+            this.#x += scalarX;
+            this.#y += scalarX;
+            this.#z += scalarX;
+        }
 
-    subtract(vector: Vector3): Vector3 {
-        this.#x -= vector.getX();
-        this.#y -= vector.getY();
-        this.#z -= vector.getZ();
-        return this;
-    }
-    subtractScalar(scalar: number): Vector3 {
-        this.#x -= scalar;
-        this.#y -= scalar;
-        this.#z -= scalar;
-        return this;
-    }
-    subtractX(scalar: number): Vector3 {
-        this.#x -= scalar;
-        return this;
-    }
-    subtractY(scalar: number): Vector3 {
-        this.#y -= scalar;
-        return this;
-    }
-    subtractZ(scalar: number): Vector3 {
-        this.#z -= scalar;
         return this;
     }
 
-    // Multiplication operations
+    // Subtraction operation
 
-    multiply(vector: Vector3): Vector3 {
-        this.#x *= vector.getX();
-        this.#y *= vector.getY();
-        this.#z *= vector.getZ();
-        return this;
-    }
-    multiplyScalar(scalar: number): Vector3 {
-        this.#x *= scalar;
-        this.#y *= scalar;
-        this.#z *= scalar;
-        return this;
-    }
-    multiplyX(scalar: number): Vector3 {
-        this.#x *= scalar;
-        return this;
-    }
-    multiplyY(scalar: number): Vector3 {
-        this.#y *= scalar;
-        return this;
-    }
-    multiplyZ(scalar: number): Vector3 {
-        this.#z *= scalar;
+    /**
+     * Subtracts another vector from this vector
+     * @param vector The vector to subtract
+     * @returns The vector itself
+     */
+    subtract(vector: Vector3): Vector3;
+    /**
+     * Subtracts a scalar value from the x, y, and z components of this vector
+     * @param scalar The scalar value to subtract
+     * @returns The vector itself
+     */
+    subtract(scalar: number): Vector3;
+    /**
+     * Subtracts three scalar values from the x, y, and z components of this vector
+     * @param scalarX The scalar value to subtract from the x component
+     * @param scalarY The scalar value to subtract from the y component
+     * @param scalarZ The scalar value to subtract from the z component
+     * @returns The vector itself
+     */
+    subtract(scalarX: number, scalarY: number, scalarZ: number): Vector3;
+
+    subtract(scalarX: Vector3 | number, scalarY?: number, scalarZ?: number): Vector3 {
+        if (scalarX instanceof Vector3) {
+            this.#x -= scalarX.getX();
+            this.#y -= scalarX.getY();
+            this.#z -= scalarX.getZ();
+        } else if (typeof scalarY === "number" && typeof scalarZ === "number") {
+            this.#x -= scalarX;
+            this.#y -= scalarY;
+            this.#z -= scalarZ;
+        } else {
+            this.#x -= scalarX;
+            this.#y -= scalarX;
+            this.#z -= scalarX;
+        }
+
         return this;
     }
 
-    // Division operations
+    // Multiplication operation
 
-    divide(vector: Vector3): Vector3 {
-        this.#x /= vector.getX();
-        this.#y /= vector.getY();
-        this.#z /= vector.getZ();
+    /**
+     * Multiplies this vector by another vector
+     * @param vector The vector to multiply by
+     * @returns The vector itself
+     */
+    multiply(vector: Vector3): Vector3;
+    /**
+     * Multiplies the x, y, and z components of this vector by a scalar value
+     * @param scalar The scalar value to multiply by
+     * @returns The vector itself
+     */
+    multiply(scalar: number): Vector3;
+    /**
+     * Multiplies the x, y, and z components of this vector by three scalar values
+     * @param scalarX The scalar value to multiply the x component by
+     * @param scalarY The scalar value to multiply the y component by
+     * @param scalarZ The scalar value to multiply the z component by
+     * @returns The vector itself
+     */
+    multiply(scalarX: number, scalarY: number, scalarZ: number): Vector3;
+
+    multiply(scalarX: Vector3 | number, scalarY?: number, scalarZ?: number): Vector3 {
+        if (scalarX instanceof Vector3) {
+            this.#x *= scalarX.getX();
+            this.#y *= scalarX.getY();
+            this.#z *= scalarX.getZ();
+        } else if (typeof scalarY === "number" && typeof scalarZ === "number") {
+            this.#x *= scalarX;
+            this.#y *= scalarY;
+            this.#z *= scalarZ;
+        } else {
+            this.#x *= scalarX;
+            this.#y *= scalarX;
+            this.#z *= scalarX;
+        }
+
         return this;
     }
-    divideScalar(scalar: number): Vector3 {
-        this.#x /= scalar;
-        this.#y /= scalar;
-        this.#z /= scalar;
-        return this;
-    }
-    divideX(scalar: number): Vector3 {
-        this.#x /= scalar;
-        return this;
-    }
-    divideY(scalar: number): Vector3 {
-        this.#y /= scalar;
-        return this;
-    }
-    divideZ(scalar: number): Vector3 {
-        this.#z /= scalar;
+
+    // Division operation
+
+    /**
+     * Divides this vector by another vector
+     * @param vector The vector to divide by
+     * @returns The vector itself
+     */
+    divide(vector: Vector3): Vector3;
+    /**
+     * Divides the x, y, and z components of this vector by a scalar value
+     * @param scalar The scalar value to divide by
+     * @returns The vector itself
+     */
+    divide(scalar: number): Vector3;
+    /**
+     * Divides the x, y, and z components of this vector by three scalar values
+     * @param scalarX The scalar value to divide the x component by
+     * @param scalarY The scalar value to divide the y component by
+     * @param scalarZ The scalar value to divide the z component by
+     * @returns The vector itself
+     */
+    divide(scalarX: number, scalarY: number, scalarZ: number): Vector3;
+
+    divide(scalarX: Vector3 | number, scalarY?: number, scalarZ?: number): Vector3 {
+        if (scalarX instanceof Vector3) {
+            this.#x /= scalarX.getX();
+            this.#y /= scalarX.getY();
+            this.#z /= scalarX.getZ();
+        } else if (typeof scalarY === "number" && typeof scalarZ === "number") {
+            this.#x /= scalarX;
+            this.#y /= scalarY;
+            this.#z /= scalarZ;
+        } else {
+            this.#x /= scalarX;
+            this.#y /= scalarX;
+            this.#z /= scalarX;
+        }
+
         return this;
     }
 
     // Other operations
 
+    /**
+     * Calculates the distance between this vector and another vector
+     * @param vector The vector to calculate the distance to
+     * @returns The distance between the two vectors
+     */
     distance(vector: Vector3): number {
         const a = (this.#x - vector.getX()) ** 2;
         const b = (this.#y - vector.getY()) ** 2;
@@ -167,25 +271,54 @@ export class Vector3 {
 
         return Math.sqrt(a + b + c);
     }
+    /**
+     * Calculates the dot product of this vector and another vector
+     * @param vector The vector to calculate the dot product with
+     * @returns The dot product of the two vectors
+     */
     dot(vector: Vector3): number {
         return this.#x * vector.getX() + this.#y * vector.getY() + this.#z * vector.getZ();
     }
+    /**
+     * Calculates the magnitude of the vector
+     * @returns The magnitude of the vector
+     */
     mag(): number {
         return Math.sqrt(this.magSq());
     }
+    /**
+     * Calculates the magnitude of the vector squared
+     * @returns The magnitude of the vector squared
+     */
     magSq(): number {
         return this.#x * this.#x + this.#y * this.#y + this.#z * this.#z;
     }
+    /**
+     * Sets the magnitude of the vector
+     * @param scalar The new magnitude of the vector
+     * @returns The vector itself
+     */
     setMag(scalar: number): Vector3 {
-        this.normalize().multiplyScalar(scalar);
+        this.normalize().multiply(scalar);
         return this;
     }
+    /**
+     * Normalizes the vector to have a magnitude of 1
+     *
+     * If the vector's magnitude is zero, then nothing changes
+     * @returns The vector itself
+     */
     normalize(): Vector3 {
         const len = this.mag();
 
-        if (len !== 0) this.multiplyScalar(1 / len);
+        if (len !== 0) this.multiply(1 / len);
         return this;
     }
+    /**
+     * Calculates the cross product of this vector and another vector
+     * @param vector The vector to calculate the cross product with
+     * @returns The vector itself
+     */
     cross(vector: Vector3): Vector3 {
         const x = this.#y * vector.getZ() - this.#z * vector.getY();
         const y = this.#z * vector.getX() - this.#x * vector.getZ();
@@ -195,20 +328,36 @@ export class Vector3 {
         this.#z = z;
         return this;
     }
+    /**
+     * Limits the magnitude of the vector to a certain value
+     *
+     * If the vector's magnitude is less than or equal to the given value, then nothing changes
+     * @param max The maximum magnitude of the vector
+     * @returns The vector itself
+     */
     limit(max: number): Vector3 {
         const mSq = this.magSq();
 
         if (mSq > max * max) {
-            this.divideScalar(Math.sqrt(mSq)).multiplyScalar(max);
+            this.divide(Math.sqrt(mSq)).multiply(max);
         }
         return this;
     }
+    /**
+     * Negates the x, y, and z components of the vector
+     * @returns The vector itself
+     */
     negate(): Vector3 {
         this.#x = -this.#x;
         this.#y = -this.#y;
         this.#z = -this.#z;
         return this;
     }
+    /**
+     * Checks if another vector is equal to this vector
+     * @param vector The vector to check equality with
+     * @returns Whether the two vectors are equal
+     */
     equals(vector: unknown): boolean {
         return (
             vector instanceof Vector3 &&
@@ -217,14 +366,28 @@ export class Vector3 {
             this.#z === vector.getZ()
         );
     }
+    /**
+     * Creates a copy of this vector
+     * @returns A new vector with the same x, y, and z values as this vector
+     */
     clone(): Vector3 {
         return new Vector3(this.#x, this.#y, this.#z);
     }
 
+    /**
+     * Creates a string representation of the vector
+     * @returns A string in the format `<x,y,z>`
+     */
     stringify(): string {
         return `<${this.#x},${this.#y},${this.#z}>`;
     }
 
+    /**
+     * Parses a string representation of a vector and sets the x, y, and z components of this vector to the parsed values
+     * @param str The string to parse, which should be in the format `<x,y,z>`
+     * @returns The vector itself
+     * @throws {SyntaxError} If the string is not in the correct format
+     */
     parse(str: string): Vector3 {
         const vector = Vector3.parse(str);
 
@@ -232,6 +395,12 @@ export class Vector3 {
         return this;
     }
 
+    /**
+     * Parses a string representation of a vector and returns a new vector with the parsed values
+     * @param str The string to parse, which should be in the format `<x,y,z>`
+     * @returns A new vector with the parsed x, y, and z values
+     * @throws {SyntaxError} If the string is not in the correct format
+     */
     static parse(str: string): Vector3 {
         if (!str.startsWith("<") || !str.startsWith("<")) {
             throw new SyntaxError("Missing angle brackets");
