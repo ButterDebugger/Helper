@@ -120,7 +120,12 @@ export function hasCircleRectangleCollision(
     }
 
     // Check if circle is intersecting the rectangle's perimeter
-    const { point } = getNearestPointAlongRectangle(rectPos, rectWidth, rectHeight, circlePos);
+    const { point } = getNearestPointAlongRectangle(
+        rectPos,
+        rectWidth,
+        rectHeight,
+        circlePos,
+    );
     if (point.distance(circlePos) < circleRadius) return true;
 
     return false;

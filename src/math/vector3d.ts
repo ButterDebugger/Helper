@@ -59,7 +59,11 @@ export class Vector3 {
      * @param z The new z value of the vector
      * @returns The vector itself
      */
-    set(x: number = this.#x, y: number = this.#y, z: number = this.#z): Vector3 {
+    set(
+        x: number = this.#x,
+        y: number = this.#y,
+        z: number = this.#z,
+    ): Vector3 {
         this.#x = x;
         this.#y = y;
         this.#z = z;
@@ -116,7 +120,11 @@ export class Vector3 {
      */
     add(scalarX: number, scalarY: number, scalarZ: number): Vector3;
 
-    add(scalarX: Vector3 | number, scalarY?: number, scalarZ?: number): Vector3 {
+    add(
+        scalarX: Vector3 | number,
+        scalarY?: number,
+        scalarZ?: number,
+    ): Vector3 {
         if (scalarX instanceof Vector3) {
             this.#x += scalarX.getX();
             this.#y += scalarX.getY();
@@ -157,7 +165,11 @@ export class Vector3 {
      */
     subtract(scalarX: number, scalarY: number, scalarZ: number): Vector3;
 
-    subtract(scalarX: Vector3 | number, scalarY?: number, scalarZ?: number): Vector3 {
+    subtract(
+        scalarX: Vector3 | number,
+        scalarY?: number,
+        scalarZ?: number,
+    ): Vector3 {
         if (scalarX instanceof Vector3) {
             this.#x -= scalarX.getX();
             this.#y -= scalarX.getY();
@@ -198,7 +210,11 @@ export class Vector3 {
      */
     multiply(scalarX: number, scalarY: number, scalarZ: number): Vector3;
 
-    multiply(scalarX: Vector3 | number, scalarY?: number, scalarZ?: number): Vector3 {
+    multiply(
+        scalarX: Vector3 | number,
+        scalarY?: number,
+        scalarZ?: number,
+    ): Vector3 {
         if (scalarX instanceof Vector3) {
             this.#x *= scalarX.getX();
             this.#y *= scalarX.getY();
@@ -239,7 +255,11 @@ export class Vector3 {
      */
     divide(scalarX: number, scalarY: number, scalarZ: number): Vector3;
 
-    divide(scalarX: Vector3 | number, scalarY?: number, scalarZ?: number): Vector3 {
+    divide(
+        scalarX: Vector3 | number,
+        scalarY?: number,
+        scalarZ?: number,
+    ): Vector3 {
         if (scalarX instanceof Vector3) {
             this.#x /= scalarX.getX();
             this.#y /= scalarX.getY();
@@ -277,7 +297,8 @@ export class Vector3 {
      * @returns The dot product of the two vectors
      */
     dot(vector: Vector3): number {
-        return this.#x * vector.getX() + this.#y * vector.getY() + this.#z * vector.getZ();
+        return this.#x * vector.getX() + this.#y * vector.getY() +
+            this.#z * vector.getZ();
     }
     /**
      * Calculates the magnitude of the vector
@@ -410,7 +431,9 @@ export class Vector3 {
         const args = body.split(",");
 
         if (args.length !== 3) {
-            throw new SyntaxError(`Expected 3 arguments but got ${args.length}`);
+            throw new SyntaxError(
+                `Expected 3 arguments but got ${args.length}`,
+            );
         }
 
         const x = Number(args[0]);

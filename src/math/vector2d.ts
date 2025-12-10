@@ -315,7 +315,8 @@ export class Vector2 {
      * @returns Whether the two vectors are equal
      */
     equals(vector: unknown): boolean {
-        return vector instanceof Vector2 && this.#x === vector.getX() && this.#y === vector.getY();
+        return vector instanceof Vector2 && this.#x === vector.getX() &&
+            this.#y === vector.getY();
     }
     /**
      * Creates a copy of this vector
@@ -361,7 +362,9 @@ export class Vector2 {
         const args = body.split(",");
 
         if (args.length !== 2) {
-            throw new SyntaxError(`Expected 2 arguments but got ${args.length}`);
+            throw new SyntaxError(
+                `Expected 2 arguments but got ${args.length}`,
+            );
         }
 
         const x = Number(args[0]);
