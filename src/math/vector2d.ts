@@ -13,14 +13,14 @@ export class Vector2 {
     }
 
     /**
-     * @returns A tuple containing the x and y components of the vector.
+     * @returns A tuple containing the x and y components of the vector
      */
     get comps(): [number, number] {
         return [this.#x, this.#y];
     }
 
     /**
-     * @returns A string representing the dimension of the vector, which is "2d".
+     * @returns A string representing the dimension of the vector, which is "2d"
      */
     get dimension(): string {
         return "2d";
@@ -73,167 +73,151 @@ export class Vector2 {
         return this;
     }
 
-    // Addition operations
+    // Addition operation
 
     /**
      * Adds another vector to this vector
      * @param vector The vector to add
      * @returns The vector itself
      */
-    add(vector: Vector2): Vector2 {
-        this.#x += vector.getX();
-        this.#y += vector.getY();
-        return this;
-    }
+    add(vector: Vector2): Vector2;
     /**
-     * Adds a scalar value to both the x and y components of the vector
+     * Adds a scalar value to both the x and y components of this vector
      * @param scalar The scalar value to add
      * @returns The vector itself
      */
-    addScalar(scalar: number): Vector2 {
-        this.#x += scalar;
-        this.#y += scalar;
-        return this;
-    }
+    add(scalar: number): Vector2;
     /**
-     * Adds a scalar value to the x component of the vector
-     * @param scalar The scalar value to add
+     * Adds two scalar values to the x and y components of this vector
+     * @param scalarX The scalar value to add to the x component
+     * @param scalarY The scalar value to add to the y component
      * @returns The vector itself
      */
-    addX(scalar: number): Vector2 {
-        this.#x += scalar;
-        return this;
-    }
-    /**
-     * Adds a scalar value to the y component of the vector
-     * @param scalar The scalar value to add
-     * @returns The vector itself
-     */
-    addY(scalar: number): Vector2 {
-        this.#y += scalar;
+    add(scalarX: number, scalarY: number): Vector2;
+
+    add(scalarX: number | Vector2, scalarY?: number): Vector2 {
+        if (scalarX instanceof Vector2) {
+            this.#x += scalarX.getX();
+            this.#y += scalarX.getY();
+        } else if (scalarY === undefined) {
+            this.#x += scalarX;
+            this.#y += scalarX;
+        } else {
+            this.#x += scalarX;
+            this.#y += scalarY;
+        }
+
         return this;
     }
 
-    // Subtraction operations
+    // Subtraction operation
 
     /**
      * Subtracts another vector from this vector
      * @param vector The vector to subtract
      * @returns The vector itself
      */
-    subtract(vector: Vector2): Vector2 {
-        this.#x -= vector.getX();
-        this.#y -= vector.getY();
-        return this;
-    }
+    subtract(vector: Vector2): Vector2;
     /**
-     * Subtracts a scalar value from both the x and y components of the vector
+     * Subtracts a scalar value from both the x and y components of this vector
      * @param scalar The scalar value to subtract
      * @returns The vector itself
      */
-    subtractScalar(scalar: number): Vector2 {
-        this.#x -= scalar;
-        this.#y -= scalar;
-        return this;
-    }
+    subtract(scalar: number): Vector2;
     /**
-     * Subtracts a scalar value from the x component of the vector
-     * @param scalar The scalar value to subtract
+     * Subtracts two scalar values from the x and y components of this vector
+     * @param scalarX The scalar value to subtract from the x component
+     * @param scalarY The scalar value to subtract from the y component
      * @returns The vector itself
      */
-    subtractX(scalar: number): Vector2 {
-        this.#x -= scalar;
-        return this;
-    }
-    /**
-     * Subtracts a scalar value from the y component of the vector
-     * @param scalar The scalar value to subtract
-     * @returns The vector itself
-     */
-    subtractY(scalar: number): Vector2 {
-        this.#y -= scalar;
+    subtract(scalarX: number, scalarY: number): Vector2;
+
+    subtract(scalarX: number | Vector2, scalarY?: number): Vector2 {
+        if (scalarX instanceof Vector2) {
+            this.#x -= scalarX.getX();
+            this.#y -= scalarX.getY();
+        } else if (scalarY === undefined) {
+            this.#x -= scalarX;
+            this.#y -= scalarX;
+        } else {
+            this.#x -= scalarX;
+            this.#y -= scalarY;
+        }
+
         return this;
     }
 
-    // Multiplication operations
+    // Multiplication operation
 
     /**
      * Multiplies this vector by another vector
-     * @param vector The vector to multiply
+     * @param vector The vector to multiply by
      * @returns The vector itself
      */
-    multiply(vector: Vector2): Vector2 {
-        this.#x *= vector.getX();
-        this.#y *= vector.getY();
-        return this;
-    }
+    multiply(vector: Vector2): Vector2;
     /**
-     * Multiplies both the x and y components of the vector by a scalar value
-     * @param scalar The scalar value to multiply
+     * Multiplies both the x and y components of this vector by a scalar value
+     * @param scalar The scalar value to multiply by
      * @returns The vector itself
      */
-    multiplyScalar(scalar: number): Vector2 {
-        this.#x *= scalar;
-        this.#y *= scalar;
-        return this;
-    }
+    multiply(scalar: number): Vector2;
     /**
-     * Multiplies the x component of the vector by a scalar value
-     * @param scalar The scalar value to multiply
+     * Multiplies the x and y components of this vector by two scalar values
+     * @param scalarX The scalar value to multiply the x component by
+     * @param scalarY The scalar value to multiply the y component by
      * @returns The vector itself
      */
-    multiplyX(scalar: number): Vector2 {
-        this.#x *= scalar;
-        return this;
-    }
-    /**
-     * Multiplies the y component of the vector by a scalar value
-     * @param scalar The scalar value to multiply
-     * @returns The vector itself
-     */
-    multiplyY(scalar: number): Vector2 {
-        this.#y *= scalar;
+    multiply(scalarX: number, scalarY: number): Vector2;
+
+    multiply(scalarX: number | Vector2, scalarY?: number): Vector2 {
+        if (scalarX instanceof Vector2) {
+            this.#x *= scalarX.getX();
+            this.#y *= scalarX.getY();
+        } else if (scalarY === undefined) {
+            this.#x *= scalarX;
+            this.#y *= scalarX;
+        } else {
+            this.#x *= scalarX;
+            this.#y *= scalarY;
+        }
+
         return this;
     }
 
-    // Division operations
+    // Division operation
 
     /**
      * Divides this vector by another vector
-     * @param vector The vector to divide
+     * @param vector The vector to divide by
      * @returns The vector itself
      */
-    divide(value: Vector2): Vector2 {
-        this.#x /= value.getX();
-        this.#y /= value.getY();
-        return this;
-    }
+    divide(vector: Vector2): Vector2;
     /**
-     * Divides both the x and y components of the vector by a scalar value
-     * @param scalar The scalar value to divide
+     * Divides both the x and y components of this vector by a scalar value
+     * @param scalar The scalar value to divide by
      * @returns The vector itself
      */
-    divideScalar(scalar: number): Vector2 {
-        this.#x /= scalar;
-        this.#y /= scalar;
-        return this;
-    }
+    divide(scalar: number): Vector2;
     /**
-     * Divides the x component of the vector by a scalar value
-     * @param scalar The scalar value to divide
+     * Divides the x and y components of this vector by two scalar values
+     * @param scalarX The scalar value to divide the x component by
+     * @param scalarY The scalar value to divide the y component by
      * @returns The vector itself
      */
-    divideX(scalar: number): Vector2 {
-        this.#x /= scalar;
-        return this;
-    }
-    /**
-     * Divides the y component of the vector by a scalar value
-     * @param scalar The scalar value to divide
-     * @returns The vector itself
-     */
-    divideY(scalar: number): Vector2 {
-        this.#y /= scalar;
+    divide(scalarX: number, scalarY: number): Vector2;
+
+    divide(scalarX: number | Vector2, scalarY?: number): Vector2 {
+        if (scalarX instanceof Vector2) {
+            this.#x /= scalarX.getX();
+            this.#y /= scalarX.getY();
+        } else if (scalarY === undefined) {
+            this.#x /= scalarX;
+            this.#y /= scalarX;
+        } else {
+            this.#x /= scalarX;
+            this.#y /= scalarY;
+        }
+
         return this;
     }
 
@@ -278,18 +262,19 @@ export class Vector2 {
      * @returns The vector itself
      */
     setMag(scalar: number): Vector2 {
-        this.normalize().multiplyScalar(scalar);
+        this.normalize().multiply(scalar);
         return this;
     }
     /**
-     * Normalizes the vector to have a magnitude of 1.
+     * Normalizes the vector to have a magnitude of 1
+     *
      * If the vector's magnitude is zero, then nothing changes
      * @returns The vector itself
      */
     normalize(): Vector2 {
         const len = this.mag();
 
-        if (len !== 0) this.multiplyScalar(1 / len);
+        if (len !== 0) this.multiply(1 / len);
         return this;
     }
     /**
@@ -301,7 +286,8 @@ export class Vector2 {
         return this.#x * vector.getY() - this.#y * vector.getX();
     }
     /**
-     * Limits the magnitude of the vector to a certain value.
+     * Limits the magnitude of the vector to a certain value
+     *
      * If the vector's magnitude is less than or equal to the given value, then nothing changes
      * @param max The maximum magnitude of the vector
      * @returns The vector itself
@@ -310,7 +296,7 @@ export class Vector2 {
         const mSq = this.magSq();
 
         if (mSq > max * max) {
-            this.divideScalar(Math.sqrt(mSq)).multiplyScalar(max);
+            this.divide(Math.sqrt(mSq)).multiply(max);
         }
         return this;
     }
@@ -332,7 +318,7 @@ export class Vector2 {
         return vector instanceof Vector2 && this.#x === vector.getX() && this.#y === vector.getY();
     }
     /**
-     * Creates a copy of this vector.
+     * Creates a copy of this vector
      * @returns A new vector with the same x and y values as this vector
      */
     clone(): Vector2 {
@@ -361,9 +347,8 @@ export class Vector2 {
     }
 
     /**
-     * Parses a string representation of a vector and returns a new vector with the parsed values.
-     * The string should be in the format `<x,y>`
-     * @param str The string to parse
+     * Parses a string representation of a vector and returns a new vector with the parsed values
+     * @param str The string to parse, which should be in the format `<x,y>`
      * @returns A new vector with the parsed x and y values
      * @throws {SyntaxError} If the string is not in the correct format
      */
