@@ -77,6 +77,56 @@ export class Grid<T> {
     }
 
     /**
+     * Returns an iterable of keys in the grid
+     * @yields The x and y coordinates of each point
+     */
+    *keys(): IterableIterator<{
+        x: number;
+        y: number;
+    }> {
+        for (const x of this.points.keys()) {
+            for (const y of this.points.get(x)!.keys()) {
+                yield {
+                    x,
+                    y,
+                };
+            }
+        }
+    }
+
+    /**
+     * Returns an iterable of values in the grid
+     * @yields The value at each point
+     */
+    *values(): IterableIterator<T> {
+        for (const row of this.points.values()) {
+            for (const value of row.values()) {
+                yield value;
+            }
+        }
+    }
+
+    /**
+     * Returns an iterable of key, value pairs for every entry in the grid
+     * @yields The x and y coordinates and value at each point
+     */
+    *entries(): IterableIterator<{
+        x: number;
+        y: number;
+        value: T;
+    }> {
+        for (const x of this.points.keys()) {
+            for (const y of this.points.get(x)!.keys()) {
+                yield {
+                    x,
+                    y,
+                    value: this.points.get(x)!.get(y)!,
+                };
+            }
+        }
+    }
+
+    /**
      * Clears the grid
      */
     clear(): void {
