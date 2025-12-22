@@ -1,6 +1,8 @@
 import { assertEquals } from "@std/assert";
 import { Vector2, Vector3 } from "../src/index.ts";
 
+// 2-dimensional vector tests
+
 Deno.test("2d constructor", () => {
     const v = new Vector2(3, 4);
 
@@ -31,6 +33,24 @@ Deno.test("2d magnitude", () => {
 
     assertEquals(v.mag(), 5);
 });
+
+Deno.test("2d dot", () => {
+    const v1 = new Vector2(1, 2);
+    const v2 = new Vector2(3, 4);
+    const result = v1.dot(v2);
+
+    assertEquals(result, 11);
+});
+
+Deno.test("2d cross", () => {
+    const v1 = new Vector2(1, 2);
+    const v2 = new Vector2(3, 4);
+    const result = v1.cross(v2);
+
+    assertEquals(result, -2);
+});
+
+// 3-dimensional vector tests
 
 Deno.test("3d constructor", () => {
     const v = new Vector3(1, 2, 3);
@@ -64,4 +84,22 @@ Deno.test("3d magnitude", () => {
     const v = new Vector3(2, 3, 6);
 
     assertEquals(v.mag(), 7);
+});
+
+Deno.test("3d dot", () => {
+    const v1 = new Vector3(1, 2, 3);
+    const v2 = new Vector3(4, 5, 6);
+    const result = v1.dot(v2);
+
+    assertEquals(result, 32);
+});
+
+Deno.test("3d cross", () => {
+    const v1 = new Vector3(1, 2, 3);
+    const v2 = new Vector3(4, 5, 6);
+    const result = v1.cross(v2);
+
+    assertEquals(result.getX(), -3);
+    assertEquals(result.getY(), 6);
+    assertEquals(result.getZ(), -3);
 });
