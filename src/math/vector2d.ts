@@ -1,6 +1,29 @@
-export class Vector2 {
-    #x: number;
-    #y: number;
+import { isRecord } from "../types.ts";
+
+/**
+ * A 2-dimensional like object that has an x and y property
+ */
+export interface Vector2Like {
+    x: number;
+    y: number;
+}
+
+/**
+ * Checks if an object is a Vector2Like object
+ * @param obj The object to check
+ * @returns True if the object is a Vector2Like object, false otherwise
+ */
+export function isVector2Like(obj: unknown): obj is Vector2Like {
+    return isRecord(obj) && typeof obj.x === "number" &&
+        typeof obj.y === "number";
+}
+
+/**
+ * A 2-dimensional vector
+ */
+export class Vector2 implements Vector2Like {
+    x: number;
+    y: number;
 
     /**
      * Creates a new Vector2 object
@@ -8,15 +31,15 @@ export class Vector2 {
      * @param y The y coordinate of the vector
      */
     constructor(x = 0, y = 0) {
-        this.#x = x;
-        this.#y = y;
+        this.x = x;
+        this.y = y;
     }
 
     /**
      * @returns A tuple containing the x and y components of the vector
      */
     get comps(): [number, number] {
-        return [this.#x, this.#y];
+        return [this.x, this.y];
     }
 
     /**
@@ -32,13 +55,13 @@ export class Vector2 {
      * @returns The x component of the vector
      */
     getX(): number {
-        return this.#x;
+        return this.x;
     }
     /**
      * @returns The y component of the vector
      */
     getY(): number {
-        return this.#y;
+        return this.y;
     }
 
     // Setters
@@ -49,9 +72,9 @@ export class Vector2 {
      * @param y The new y value of the vector
      * @returns The vector itself
      */
-    set(x: number = this.#x, y: number = this.#y): Vector2 {
-        this.#x = x;
-        this.#y = y;
+    set(x: number = this.x, y: number = this.y): Vector2 {
+        this.x = x;
+        this.y = y;
         return this;
     }
     /**
@@ -60,7 +83,7 @@ export class Vector2 {
      * @returns The vector itself
      */
     setX(scalar: number): Vector2 {
-        this.#x = scalar;
+        this.x = scalar;
         return this;
     }
     /**
@@ -69,7 +92,7 @@ export class Vector2 {
      * @returns The vector itself
      */
     setY(scalar: number): Vector2 {
-        this.#y = scalar;
+        this.y = scalar;
         return this;
     }
 
@@ -80,7 +103,7 @@ export class Vector2 {
      * @param vector The vector to add
      * @returns The vector itself
      */
-    add(vector: Vector2): Vector2;
+    add(vector: Vector2Like): Vector2;
     /**
      * Adds a scalar value to both the x and y components of this vector
      * @param scalar The scalar value to add
@@ -95,16 +118,16 @@ export class Vector2 {
      */
     add(scalarX: number, scalarY: number): Vector2;
 
-    add(scalarX: number | Vector2, scalarY?: number): Vector2 {
-        if (scalarX instanceof Vector2) {
-            this.#x += scalarX.getX();
-            this.#y += scalarX.getY();
+    add(scalarX: number | Vector2Like, scalarY?: number): Vector2 {
+        if (isVector2Like(scalarX)) {
+            this.x += scalarX.x;
+            this.y += scalarX.y;
         } else if (scalarY === undefined) {
-            this.#x += scalarX;
-            this.#y += scalarX;
+            this.x += scalarX;
+            this.y += scalarX;
         } else {
-            this.#x += scalarX;
-            this.#y += scalarY;
+            this.x += scalarX;
+            this.y += scalarY;
         }
 
         return this;
@@ -117,7 +140,7 @@ export class Vector2 {
      * @param vector The vector to subtract
      * @returns The vector itself
      */
-    subtract(vector: Vector2): Vector2;
+    subtract(vector: Vector2Like): Vector2;
     /**
      * Subtracts a scalar value from both the x and y components of this vector
      * @param scalar The scalar value to subtract
@@ -132,16 +155,16 @@ export class Vector2 {
      */
     subtract(scalarX: number, scalarY: number): Vector2;
 
-    subtract(scalarX: number | Vector2, scalarY?: number): Vector2 {
-        if (scalarX instanceof Vector2) {
-            this.#x -= scalarX.getX();
-            this.#y -= scalarX.getY();
+    subtract(scalarX: number | Vector2Like, scalarY?: number): Vector2 {
+        if (isVector2Like(scalarX)) {
+            this.x -= scalarX.x;
+            this.y -= scalarX.y;
         } else if (scalarY === undefined) {
-            this.#x -= scalarX;
-            this.#y -= scalarX;
+            this.x -= scalarX;
+            this.y -= scalarX;
         } else {
-            this.#x -= scalarX;
-            this.#y -= scalarY;
+            this.x -= scalarX;
+            this.y -= scalarY;
         }
 
         return this;
@@ -154,7 +177,7 @@ export class Vector2 {
      * @param vector The vector to multiply by
      * @returns The vector itself
      */
-    multiply(vector: Vector2): Vector2;
+    multiply(vector: Vector2Like): Vector2;
     /**
      * Multiplies both the x and y components of this vector by a scalar value
      * @param scalar The scalar value to multiply by
@@ -169,16 +192,16 @@ export class Vector2 {
      */
     multiply(scalarX: number, scalarY: number): Vector2;
 
-    multiply(scalarX: number | Vector2, scalarY?: number): Vector2 {
-        if (scalarX instanceof Vector2) {
-            this.#x *= scalarX.getX();
-            this.#y *= scalarX.getY();
+    multiply(scalarX: number | Vector2Like, scalarY?: number): Vector2 {
+        if (isVector2Like(scalarX)) {
+            this.x *= scalarX.x;
+            this.y *= scalarX.y;
         } else if (scalarY === undefined) {
-            this.#x *= scalarX;
-            this.#y *= scalarX;
+            this.x *= scalarX;
+            this.y *= scalarX;
         } else {
-            this.#x *= scalarX;
-            this.#y *= scalarY;
+            this.x *= scalarX;
+            this.y *= scalarY;
         }
 
         return this;
@@ -191,7 +214,7 @@ export class Vector2 {
      * @param vector The vector to divide by
      * @returns The vector itself
      */
-    divide(vector: Vector2): Vector2;
+    divide(vector: Vector2Like): Vector2;
     /**
      * Divides both the x and y components of this vector by a scalar value
      * @param scalar The scalar value to divide by
@@ -206,16 +229,16 @@ export class Vector2 {
      */
     divide(scalarX: number, scalarY: number): Vector2;
 
-    divide(scalarX: number | Vector2, scalarY?: number): Vector2 {
-        if (scalarX instanceof Vector2) {
-            this.#x /= scalarX.getX();
-            this.#y /= scalarX.getY();
+    divide(scalarX: number | Vector2Like, scalarY?: number): Vector2 {
+        if (isVector2Like(scalarX)) {
+            this.x /= scalarX.x;
+            this.y /= scalarX.y;
         } else if (scalarY === undefined) {
-            this.#x /= scalarX;
-            this.#y /= scalarX;
+            this.x /= scalarX;
+            this.y /= scalarX;
         } else {
-            this.#x /= scalarX;
-            this.#y /= scalarY;
+            this.x /= scalarX;
+            this.y /= scalarY;
         }
 
         return this;
@@ -228,20 +251,32 @@ export class Vector2 {
      * @param vector The vector to calculate the distance to
      * @returns The distance between the two vectors
      */
-    distance(vector: Vector2): number {
-        const a = (this.#x - vector.getX()) ** 2;
-        const b = (this.#y - vector.getY()) ** 2;
+    distance(vector: Vector2Like): number {
+        return Vector2.distance(this, vector);
+    }
+
+    /**
+     * Calculates the distance between two vectors
+     * @param vectorA The first vector
+     * @param vectorB The second vector
+     * @returns The distance between the two vectors
+     */
+    static distance(vectorA: Vector2Like, vectorB: Vector2Like): number {
+        const a = (vectorA.x - vectorB.x) ** 2;
+        const b = (vectorA.y - vectorB.y) ** 2;
 
         return Math.sqrt(a + b);
     }
+
     /**
      * Calculates the dot product of this vector and another vector
      * @param vector The vector to calculate the dot product with
      * @returns The dot product of the two vectors
      */
-    dot(vector: Vector2): number {
-        return this.#x * vector.getX() + this.#y * vector.getY();
+    dot(vector: Vector2Like): number {
+        return this.x * vector.x + this.y * vector.y;
     }
+
     /**
      * Calculates the magnitude of the vector
      * @returns The magnitude of the vector
@@ -249,13 +284,15 @@ export class Vector2 {
     mag(): number {
         return Math.sqrt(this.magSq());
     }
+
     /**
      * Calculates the magnitude of the vector squared
      * @returns The magnitude of the vector squared
      */
     magSq(): number {
-        return this.#x * this.#x + this.#y * this.#y;
+        return this.x * this.x + this.y * this.y;
     }
+
     /**
      * Sets the magnitude of the vector
      * @param scalar The new magnitude of the vector
@@ -265,6 +302,7 @@ export class Vector2 {
         this.normalize().multiply(scalar);
         return this;
     }
+
     /**
      * Normalizes the vector to have a magnitude of 1
      *
@@ -277,14 +315,16 @@ export class Vector2 {
         if (len !== 0) this.multiply(1 / len);
         return this;
     }
+
     /**
      * Calculates the cross product of this vector and another vector
      * @param vector The vector to calculate the cross product with
      * @returns The cross product of the two vectors
      */
-    cross(vector: Vector2): number {
-        return this.#x * vector.getY() - this.#y * vector.getX();
+    cross(vector: Vector2Like): number {
+        return this.x * vector.y - this.y * vector.x;
     }
+
     /**
      * Limits the magnitude of the vector to a certain value
      *
@@ -300,30 +340,33 @@ export class Vector2 {
         }
         return this;
     }
+
     /**
      * Negates the x and y components of the vector
      * @returns The vector itself
      */
     negate(): Vector2 {
-        this.#x = -this.#x;
-        this.#y = -this.#y;
+        this.x = -this.x;
+        this.y = -this.y;
         return this;
     }
+
     /**
      * Checks if another vector is equal to this vector
      * @param vector The vector to check equality with
      * @returns Whether the two vectors are equal
      */
     equals(vector: unknown): boolean {
-        return vector instanceof Vector2 && this.#x === vector.getX() &&
-            this.#y === vector.getY();
+        return isVector2Like(vector) && this.x === vector.x &&
+            this.y === vector.y;
     }
+
     /**
      * Creates a copy of this vector
      * @returns A new vector with the same x and y values as this vector
      */
     clone(): Vector2 {
-        return new Vector2(this.#x, this.#y);
+        return new Vector2(this.x, this.y);
     }
 
     /**
@@ -331,7 +374,7 @@ export class Vector2 {
      * @returns A string in the format `<x,y>`
      */
     stringify(): string {
-        return `<${this.#x},${this.#y}>`;
+        return `<${this.x},${this.y}>`;
     }
 
     /**

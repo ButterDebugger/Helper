@@ -1,119 +1,92 @@
 import { clamp } from "./math.ts";
-import { Vector2 } from "./vector2d.ts";
+import { Vector2, type Vector2Like } from "./vector2d.ts";
 
 /*
  *  General collision functions
  */
 
 export function getNearestPointAlongRectangle(
-    rectPos: Vector2,
+    rectPos: Vector2Like,
     rectWidth: number,
     rectHeight: number,
-    pointPos: Vector2,
+    pointPos: Vector2Like,
 ): {
-    point: Vector2;
+    point: Vector2Like;
     side: "top" | "bottom" | "left" | "right";
 } {
-    if (!(rectPos instanceof Vector2)) {
-        throw new TypeError("Argument 1 must be a two dimensional vector");
-    }
-    if (typeof rectWidth !== "number") {
-        throw new TypeError("Argument 2 must be a number");
-    }
-    if (typeof rectHeight !== "number") {
-        throw new TypeError("Argument 3 must be a number");
-    }
-    if (!(pointPos instanceof Vector2)) {
-        throw new TypeError("Argument 4 must be a two dimensional vector");
-    }
-
-    const left = rectPos.getX();
-    const top = rectPos.getY();
+    const left = rectPos.x;
+    const top = rectPos.y;
     const right = left + rectWidth;
     const bottom = top + rectHeight;
 
-    const pos = pointPos.clone();
-    pos.setX(clamp(pos.getX(), left, right));
-    pos.setY(clamp(pos.getY(), top, bottom));
+    const pos = { x: pointPos.x, y: pointPos.y };
+    pos.x = clamp(pos.x, left, right);
+    pos.y = clamp(pos.y, top, bottom);
 
-    const dl = Math.abs(pos.getX() - left);
-    const dr = Math.abs(pos.getX() - right);
-    const dt = Math.abs(pos.getY() - top);
-    const db = Math.abs(pos.getY() - bottom);
+    const dl = Math.abs(pos.x - left);
+    const dr = Math.abs(pos.x - right);
+    const dt = Math.abs(pos.y - top);
+    const db = Math.abs(pos.y - bottom);
     const m = Math.min(dl, dr, dt, db);
 
     if (m === dt) {
+        // Top side
+        pos.y = top;
+
         return {
-            point: pos.setY(top),
+            point: pos,
             side: "top",
         };
     }
     if (m === db) {
+        // Bottom side
+        pos.y = bottom;
+
         return {
-            point: pos.setY(bottom),
+            point: pos,
             side: "bottom",
         };
     }
     if (m === dl) {
+        // Left side
+        pos.x = left;
+
         return {
-            point: pos.setX(left),
+            point: pos,
             side: "left",
         };
     }
+
+    // Otherwise, it must be the right side
+    pos.x = right;
+
     return {
-        point: pos.setX(right),
+        point: pos,
         side: "right",
     };
 }
+
 export function isPointInsideRectangle(
-    rectPos: Vector2,
+    rectPos: Vector2Like,
     rectWidth: number,
     rectHeight: number,
-    pointPos: Vector2,
+    pointPos: Vector2Like,
 ): boolean {
-    if (!(rectPos instanceof Vector2)) {
-        throw new TypeError("Argument 1 must be a two dimensional vector");
-    }
-    if (typeof rectWidth !== "number") {
-        throw new TypeError("Argument 2 must be a number");
-    }
-    if (typeof rectHeight !== "number") {
-        throw new TypeError("Argument 3 must be a number");
-    }
-    if (!(pointPos instanceof Vector2)) {
-        throw new TypeError("Argument 4 must be a two dimensional vector");
-    }
-
     return (
-        rectPos.getX() <= pointPos.getX() &&
-        pointPos.getX() <= rectPos.getX() + rectWidth &&
-        rectPos.getY() <= pointPos.getY() &&
-        pointPos.getY() <= rectPos.getY() + rectHeight
+        rectPos.x <= pointPos.x &&
+        pointPos.x <= rectPos.x + rectWidth &&
+        rectPos.y <= pointPos.y &&
+        pointPos.y <= rectPos.y + rectHeight
     );
 }
+
 export function hasCircleRectangleCollision(
-    rectPos: Vector2,
+    rectPos: Vector2Like,
     rectWidth: number,
     rectHeight: number,
-    circlePos: Vector2,
+    circlePos: Vector2Like,
     circleRadius: number,
 ): boolean {
-    if (!(rectPos instanceof Vector2)) {
-        throw new TypeError("Argument 1 must be a two dimensional vector");
-    }
-    if (typeof rectWidth !== "number") {
-        throw new TypeError("Argument 2 must be a number");
-    }
-    if (typeof rectHeight !== "number") {
-        throw new TypeError("Argument 3 must be a number");
-    }
-    if (!(circlePos instanceof Vector2)) {
-        throw new TypeError("Argument 4 must be a two dimensional vector");
-    }
-    if (typeof circleRadius !== "number") {
-        throw new TypeError("Argument 5 must be a number");
-    }
-
     // Check if circle's center is inside the rectangle
     if (isPointInsideRectangle(rectPos, rectWidth, rectHeight, circlePos)) {
         return true;
@@ -126,7 +99,7 @@ export function hasCircleRectangleCollision(
         rectHeight,
         circlePos,
     );
-    if (point.distance(circlePos) < circleRadius) return true;
+    if (Vector2.distance(point, circlePos) < circleRadius) return true;
 
     return false;
 }

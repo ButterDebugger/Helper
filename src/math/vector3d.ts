@@ -1,7 +1,35 @@
-export class Vector3 {
-    #x: number;
-    #y: number;
-    #z: number;
+import { isRecord } from "../types.ts";
+
+/**
+ * A 3-dimensional like object that has an x, y, and z property
+ */
+export interface Vector3Like {
+    x: number;
+    y: number;
+    z: number;
+}
+
+/**
+ * Checks if an object is a Vector3Like object
+ * @param obj The object to check
+ * @returns True if the object is a Vector3Like object, false otherwise
+ */
+export function isVector3Like(obj: unknown): obj is Vector3Like {
+    return (
+        isRecord(obj) &&
+        typeof obj.x === "number" &&
+        typeof obj.y === "number" &&
+        typeof obj.z === "number"
+    );
+}
+
+/**
+ * A 3-dimensional vector
+ */
+export class Vector3 implements Vector3Like {
+    x: number;
+    y: number;
+    z: number;
 
     /**
      * Creates a new Vector3 object
@@ -10,16 +38,16 @@ export class Vector3 {
      * @param z The z coordinate of the vector
      */
     constructor(x = 0, y = 0, z = 0) {
-        this.#x = x;
-        this.#y = y;
-        this.#z = z;
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
 
     /**
      * @returns A tuple containing the x, y, and z components of the vector
      */
     get comps(): [number, number, number] {
-        return [this.#x, this.#y, this.#z];
+        return [this.x, this.y, this.z];
     }
 
     /**
@@ -35,19 +63,21 @@ export class Vector3 {
      * @returns The x component of the vector
      */
     getX(): number {
-        return this.#x;
+        return this.x;
     }
+
     /**
      * @returns The y component of the vector
      */
     getY(): number {
-        return this.#y;
+        return this.y;
     }
+
     /**
      * @returns The z component of the vector
      */
     getZ(): number {
-        return this.#z;
+        return this.z;
     }
 
     // Setters
@@ -59,41 +89,40 @@ export class Vector3 {
      * @param z The new z value of the vector
      * @returns The vector itself
      */
-    set(
-        x: number = this.#x,
-        y: number = this.#y,
-        z: number = this.#z,
-    ): Vector3 {
-        this.#x = x;
-        this.#y = y;
-        this.#z = z;
+    set(x: number = this.x, y: number = this.y, z: number = this.z): Vector3 {
+        this.x = x;
+        this.y = y;
+        this.z = z;
         return this;
     }
+
     /**
      * Sets the x component of the vector
      * @param scalar The new x value of the vector
      * @returns The vector itself
      */
     setX(scalar: number): Vector3 {
-        this.#x = scalar;
+        this.x = scalar;
         return this;
     }
+
     /**
      * Sets the y component of the vector
      * @param scalar The new y value of the vector
      * @returns The vector itself
      */
     setY(scalar: number): Vector3 {
-        this.#y = scalar;
+        this.y = scalar;
         return this;
     }
+
     /**
      * Sets the z component of the vector
      * @param scalar The new z value of the vector
      * @returns The vector itself
      */
     setZ(scalar: number): Vector3 {
-        this.#z = scalar;
+        this.z = scalar;
         return this;
     }
 
@@ -104,7 +133,7 @@ export class Vector3 {
      * @param vector The vector to add
      * @returns The vector itself
      */
-    add(vector: Vector3): Vector3;
+    add(vector: Vector3Like): Vector3;
     /**
      * Adds a scalar value to the x, y, and z components of this vector
      * @param scalar The scalar value to add
@@ -121,22 +150,22 @@ export class Vector3 {
     add(scalarX: number, scalarY: number, scalarZ: number): Vector3;
 
     add(
-        scalarX: Vector3 | number,
+        scalarX: Vector3Like | number,
         scalarY?: number,
         scalarZ?: number,
     ): Vector3 {
-        if (scalarX instanceof Vector3) {
-            this.#x += scalarX.getX();
-            this.#y += scalarX.getY();
-            this.#z += scalarX.getZ();
+        if (isVector3Like(scalarX)) {
+            this.x += scalarX.x;
+            this.y += scalarX.y;
+            this.z += scalarX.z;
         } else if (typeof scalarY === "number" && typeof scalarZ === "number") {
-            this.#x += scalarX;
-            this.#y += scalarY;
-            this.#z += scalarZ;
+            this.x += scalarX;
+            this.y += scalarY;
+            this.z += scalarZ;
         } else {
-            this.#x += scalarX;
-            this.#y += scalarX;
-            this.#z += scalarX;
+            this.x += scalarX;
+            this.y += scalarX;
+            this.z += scalarX;
         }
 
         return this;
@@ -149,7 +178,7 @@ export class Vector3 {
      * @param vector The vector to subtract
      * @returns The vector itself
      */
-    subtract(vector: Vector3): Vector3;
+    subtract(vector: Vector3Like): Vector3;
     /**
      * Subtracts a scalar value from the x, y, and z components of this vector
      * @param scalar The scalar value to subtract
@@ -166,22 +195,22 @@ export class Vector3 {
     subtract(scalarX: number, scalarY: number, scalarZ: number): Vector3;
 
     subtract(
-        scalarX: Vector3 | number,
+        scalarX: Vector3Like | number,
         scalarY?: number,
         scalarZ?: number,
     ): Vector3 {
-        if (scalarX instanceof Vector3) {
-            this.#x -= scalarX.getX();
-            this.#y -= scalarX.getY();
-            this.#z -= scalarX.getZ();
+        if (isVector3Like(scalarX)) {
+            this.x -= scalarX.x;
+            this.y -= scalarX.y;
+            this.z -= scalarX.z;
         } else if (typeof scalarY === "number" && typeof scalarZ === "number") {
-            this.#x -= scalarX;
-            this.#y -= scalarY;
-            this.#z -= scalarZ;
+            this.x -= scalarX;
+            this.y -= scalarY;
+            this.z -= scalarZ;
         } else {
-            this.#x -= scalarX;
-            this.#y -= scalarX;
-            this.#z -= scalarX;
+            this.x -= scalarX;
+            this.y -= scalarX;
+            this.z -= scalarX;
         }
 
         return this;
@@ -194,7 +223,7 @@ export class Vector3 {
      * @param vector The vector to multiply by
      * @returns The vector itself
      */
-    multiply(vector: Vector3): Vector3;
+    multiply(vector: Vector3Like): Vector3;
     /**
      * Multiplies the x, y, and z components of this vector by a scalar value
      * @param scalar The scalar value to multiply by
@@ -211,22 +240,22 @@ export class Vector3 {
     multiply(scalarX: number, scalarY: number, scalarZ: number): Vector3;
 
     multiply(
-        scalarX: Vector3 | number,
+        scalarX: Vector3Like | number,
         scalarY?: number,
         scalarZ?: number,
     ): Vector3 {
-        if (scalarX instanceof Vector3) {
-            this.#x *= scalarX.getX();
-            this.#y *= scalarX.getY();
-            this.#z *= scalarX.getZ();
+        if (isVector3Like(scalarX)) {
+            this.x *= scalarX.x;
+            this.y *= scalarX.y;
+            this.z *= scalarX.z;
         } else if (typeof scalarY === "number" && typeof scalarZ === "number") {
-            this.#x *= scalarX;
-            this.#y *= scalarY;
-            this.#z *= scalarZ;
+            this.x *= scalarX;
+            this.y *= scalarY;
+            this.z *= scalarZ;
         } else {
-            this.#x *= scalarX;
-            this.#y *= scalarX;
-            this.#z *= scalarX;
+            this.x *= scalarX;
+            this.y *= scalarX;
+            this.z *= scalarX;
         }
 
         return this;
@@ -239,7 +268,7 @@ export class Vector3 {
      * @param vector The vector to divide by
      * @returns The vector itself
      */
-    divide(vector: Vector3): Vector3;
+    divide(vector: Vector3Like): Vector3;
     /**
      * Divides the x, y, and z components of this vector by a scalar value
      * @param scalar The scalar value to divide by
@@ -256,22 +285,22 @@ export class Vector3 {
     divide(scalarX: number, scalarY: number, scalarZ: number): Vector3;
 
     divide(
-        scalarX: Vector3 | number,
+        scalarX: Vector3Like | number,
         scalarY?: number,
         scalarZ?: number,
     ): Vector3 {
-        if (scalarX instanceof Vector3) {
-            this.#x /= scalarX.getX();
-            this.#y /= scalarX.getY();
-            this.#z /= scalarX.getZ();
+        if (isVector3Like(scalarX)) {
+            this.x /= scalarX.x;
+            this.y /= scalarX.y;
+            this.z /= scalarX.z;
         } else if (typeof scalarY === "number" && typeof scalarZ === "number") {
-            this.#x /= scalarX;
-            this.#y /= scalarY;
-            this.#z /= scalarZ;
+            this.x /= scalarX;
+            this.y /= scalarY;
+            this.z /= scalarZ;
         } else {
-            this.#x /= scalarX;
-            this.#y /= scalarX;
-            this.#z /= scalarX;
+            this.x /= scalarX;
+            this.y /= scalarX;
+            this.z /= scalarX;
         }
 
         return this;
@@ -284,22 +313,33 @@ export class Vector3 {
      * @param vector The vector to calculate the distance to
      * @returns The distance between the two vectors
      */
-    distance(vector: Vector3): number {
-        const a = (this.#x - vector.getX()) ** 2;
-        const b = (this.#y - vector.getY()) ** 2;
-        const c = (this.#z - vector.getZ()) ** 2;
+    distance(vector: Vector3Like): number {
+        return Vector3.distance(this, vector);
+    }
+
+    /**
+     * Calculates the distance between two vectors
+     * @param vectorA The first vector
+     * @param vectorB The second vector
+     * @returns The distance between the two vectors
+     */
+    static distance(vectorA: Vector3Like, vectorB: Vector3Like): number {
+        const a = (vectorA.x - vectorB.x) ** 2;
+        const b = (vectorA.y - vectorB.y) ** 2;
+        const c = (vectorA.z - vectorB.z) ** 2;
 
         return Math.sqrt(a + b + c);
     }
+
     /**
      * Calculates the dot product of this vector and another vector
      * @param vector The vector to calculate the dot product with
      * @returns The dot product of the two vectors
      */
-    dot(vector: Vector3): number {
-        return this.#x * vector.getX() + this.#y * vector.getY() +
-            this.#z * vector.getZ();
+    dot(vector: Vector3Like): number {
+        return this.x * vector.x + this.y * vector.y + this.z * vector.z;
     }
+
     /**
      * Calculates the magnitude of the vector
      * @returns The magnitude of the vector
@@ -307,13 +347,15 @@ export class Vector3 {
     mag(): number {
         return Math.sqrt(this.magSq());
     }
+
     /**
      * Calculates the magnitude of the vector squared
      * @returns The magnitude of the vector squared
      */
     magSq(): number {
-        return this.#x * this.#x + this.#y * this.#y + this.#z * this.#z;
+        return this.x * this.x + this.y * this.y + this.z * this.z;
     }
+
     /**
      * Sets the magnitude of the vector
      * @param scalar The new magnitude of the vector
@@ -323,6 +365,7 @@ export class Vector3 {
         this.normalize().multiply(scalar);
         return this;
     }
+
     /**
      * Normalizes the vector to have a magnitude of 1
      *
@@ -335,20 +378,22 @@ export class Vector3 {
         if (len !== 0) this.multiply(1 / len);
         return this;
     }
+
     /**
      * Calculates the cross product of this vector and another vector
      * @param vector The vector to calculate the cross product with
      * @returns The vector itself
      */
-    cross(vector: Vector3): Vector3 {
-        const x = this.#y * vector.getZ() - this.#z * vector.getY();
-        const y = this.#z * vector.getX() - this.#x * vector.getZ();
-        const z = this.#x * vector.getY() - this.#y * vector.getX();
-        this.#x = x;
-        this.#y = y;
-        this.#z = z;
+    cross(vector: Vector3Like): Vector3 {
+        const x = this.y * vector.z - this.z * vector.y;
+        const y = this.z * vector.x - this.x * vector.z;
+        const z = this.x * vector.y - this.y * vector.x;
+        this.x = x;
+        this.y = y;
+        this.z = z;
         return this;
     }
+
     /**
      * Limits the magnitude of the vector to a certain value
      *
@@ -364,16 +409,18 @@ export class Vector3 {
         }
         return this;
     }
+
     /**
      * Negates the x, y, and z components of the vector
      * @returns The vector itself
      */
     negate(): Vector3 {
-        this.#x = -this.#x;
-        this.#y = -this.#y;
-        this.#z = -this.#z;
+        this.x = -this.x;
+        this.y = -this.y;
+        this.z = -this.z;
         return this;
     }
+
     /**
      * Checks if another vector is equal to this vector
      * @param vector The vector to check equality with
@@ -381,18 +428,19 @@ export class Vector3 {
      */
     equals(vector: unknown): boolean {
         return (
-            vector instanceof Vector3 &&
-            this.#x === vector.getX() &&
-            this.#y === vector.getY() &&
-            this.#z === vector.getZ()
+            isVector3Like(vector) &&
+            this.x === vector.x &&
+            this.y === vector.y &&
+            this.z === vector.z
         );
     }
+
     /**
      * Creates a copy of this vector
      * @returns A new vector with the same x, y, and z values as this vector
      */
     clone(): Vector3 {
-        return new Vector3(this.#x, this.#y, this.#z);
+        return new Vector3(this.x, this.y, this.z);
     }
 
     /**
@@ -400,7 +448,7 @@ export class Vector3 {
      * @returns A string in the format `<x,y,z>`
      */
     stringify(): string {
-        return `<${this.#x},${this.#y},${this.#z}>`;
+        return `<${this.x},${this.y},${this.z}>`;
     }
 
     /**
